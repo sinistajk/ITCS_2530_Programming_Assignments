@@ -1,18 +1,40 @@
 # ITCS 2530 C++ Programming Assignments
 
-**Name:** Kristian Sinistaj
+**Course Repository | C++ Programming**
 
-**Course:** ITCS 2530 C++ Programming Assignments
+---
+
+## About Me
+
+My name is Kristian, and I am a student with an interest in computer science, programming, technology, and finance. I enjoy learning how software works and developing practical skills through hands on projects.
+
+I like to workout, play chess, and hang out with friends and family on my own time.
 
 ## About This Repository
 
-This repository contains my C++ programming
-assignments and projects for ITCS 2530.
+This repository contains my coursework and programming assignments for **ITCS 2530 C++ Programming** at Macomb Community College.
 
-## My Interests
+The purpose of this repository is to organize my work, document my progress, and demonstrate the programming concepts I learn throughout the course.
 
-I am interested in technology, programming,
-and learning how software works. I enjoy
-developing new technical skills and applying
-them to real world projects that I can use
-in my daily life.
+## Skills and Topics
+
+Throughout this course, I will be developing my understanding of:
+
+- C++ programming fundamentals
+- Variables and data types
+- Input and output operations
+- Conditional statements and loops
+- Functions and program organization
+- Problem solving and debugging
+
+## Repository Organization
+
+Programming assignments will be organized into separate folders as they are completed throughout the semester.
+
+Each assignment will contain its relevant source code and any necessary supporting files.
+
+## Learning Goals
+
+My goal is to strengthen my understanding of programming, develop better problem solving skills, and gain experience creating well structured and functional applications.
+
+This repository will serve as a record of my development and progress throughout the course.
