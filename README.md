@@ -26,6 +26,7 @@ Throughout this course, I will be developing my understanding of:
 - Conditional statements and loops
 - Functions and program organization
 - Problem solving and debugging
+- Learn OOP
 
 ## Repository Organization
 
