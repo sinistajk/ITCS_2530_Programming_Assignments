@@ -1,0 +1,9 @@
+==============================
+       Running Report
+==============================
+Name:               k
+Miles per run:      20.00
+Days per week:      3
+Minutes per run:    20.00
+Weekly miles:       60.00
+Weekly minutes:     60.00
