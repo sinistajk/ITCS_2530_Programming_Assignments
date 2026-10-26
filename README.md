@@ -10,6 +10,10 @@ My name is Kristian, and I am a student with an interest in computer science, pr
 
 I like to workout, play chess, and hang out with friends and family on my own time.
 
+One of my main interests is investing and learning about the stock market. I enjoy learning how securities work, what causes their prices to fluctuate, and what makes each investment suitable to a particular investor. This includes things like stocks, bonds, and alternative investments.
+
+I sometimes spend time researching companies and seeing what might cause an investment to go down or up depending on what's been happening lately for the companies. My goal is to continue building my knowledge of finance. I believe it is such a crucial skill to be able to make the right financial decisions in your life and helping people as a fiduciary to help them make financial decisions for their own as well.
+
 ## About This Repository
 
 This repository contains my coursework and programming assignments for **ITCS 2530 C++ Programming** at Macomb Community College.
