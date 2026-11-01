@@ -8,94 +8,168 @@ int main()
 {
     // Make our variables
     string name;
-    double milesPerRun;
-    int daysPerWeek;
-    double minutesPerRun;
+    int shares;
+    int menuChoice;
+    double purchasePrice;
+    double currentPrice;
+    double totalCost;
+    double currentValue;
+    double profitLoss;
+    double percentChange;
 
     // Welcome message
-    cout << "==============================" << endl;
-    cout << "     Weekly Running Tracker" << endl;
-    cout << "==============================" << endl;
-    cout << "Welcome to my running program!" << endl;
+    cout << "==================================" << endl;
+    cout << "       Stock Investment Tracker" << endl;
+    cout << "==================================" << endl;
+    cout << "Welcome to my stock market program!" << endl;
     cout << endl;
 
-    // Prompt questions and get user input
+    // Get the user's name
     cout << "What is your full name? ";
     getline(cin, name);
 
-    cout << "How many miles do you run per session? ";
-    cin >> milesPerRun;
+    // Get the user's investment information
+    cout << "How many shares did you purchase? ";
+    cin >> shares;
 
-    // Check if input is valid
-    if (cin.fail() || milesPerRun <= 0)
+    if (cin.fail() || shares <= 0)
     {
-        cout << "Invalid miles entered." << endl;
+        cout << "Invalid number of shares." << endl;
         return 1;
     }
 
-    cout << "How many days per week do you run? ";
-    cin >> daysPerWeek;
+    cout << "What was the purchase price per share? $";
+    cin >> purchasePrice;
 
-    if (cin.fail() || daysPerWeek < 1 || daysPerWeek > 7)
+    if (cin.fail() || purchasePrice <= 0)
     {
-        cout << "Invalid days entered." << endl;
+        cout << "Invalid purchase price." << endl;
         return 1;
     }
 
-    cout << "How many minutes does each run take? ";
-    cin >> minutesPerRun;
+    cout << "What is the current price per share? $";
+    cin >> currentPrice;
 
-    if (cin.fail() || minutesPerRun <= 0)
+    if (cin.fail() || currentPrice < 0)
     {
-        cout << "Invalid minutes entered." << endl;
+        cout << "Invalid current price." << endl;
         return 1;
     }
 
-    // Calculate weekly distance and exercise time
-    double weeklyMiles = milesPerRun * daysPerWeek;
-    double weeklyMinutes = minutesPerRun * daysPerWeek;
+    // Calculate the investment values
+    totalCost = shares * purchasePrice;
+    currentValue = shares * currentPrice;
+    profitLoss = currentValue - totalCost;
+    percentChange = (profitLoss / totalCost) * 100;
 
-    // Display a summary of user running activity
+    // Display the menu
     cout << endl;
-    cout << "Your Weekly Running Summary" << endl;
-    cout << "You run " << milesPerRun << " miles per session, ";
-    cout << daysPerWeek << " days per week." << endl;
-    cout << "Each run takes about " << minutesPerRun;
-    cout << " minutes." << endl;
-    cout << "You run a total of " << weeklyMiles;
-    cout << " miles and exercise for " << weeklyMinutes;
-    cout << " minutes every week!" << endl;
+    cout << "==================================" << endl;
+    cout << "             Main Menu" << endl;
+    cout << "==================================" << endl;
+    cout << "1. View profit or loss" << endl;
+    cout << "2. View investment report" << endl;
+    cout << "3. Get investment performance rating" << endl;
+    cout << "Enter your choice (1-3): ";
+    cin >> menuChoice;
 
-    // Display a formatted summary
-    cout << endl;
-    cout << "==============================" << endl;
-    cout << "       Running Report" << endl;
-    cout << "==============================" << endl;
+    if (cin.fail() || menuChoice < 1 || menuChoice > 3)
+    {
+        cout << "Invalid menu choice." << endl;
+        return 1;
+    }
 
     cout << fixed << setprecision(2);
-    cout << left << setw(20) << "Name:" << name << endl;
-    cout << left << setw(20) << "Miles per run:" << milesPerRun << endl;
-    cout << left << setw(20) << "Days per week:" << daysPerWeek << endl;
-    cout << left << setw(20) << "Minutes per run:" << minutesPerRun << endl;
-    cout << left << setw(20) << "Weekly miles:" << weeklyMiles << endl;
-    cout << left << setw(20) << "Weekly minutes:" << weeklyMinutes << endl;
 
-    // Create a file to save the report
+    // Use switch to handle the user's menu choice
+    switch (menuChoice)
+    {
+    case 1:
+        cout << endl;
+        cout << "Your total investment was $" << totalCost << endl;
+        cout << "Your investment is now worth $" << currentValue << endl;
+
+        // Check whether the investment gained or lost money
+        if (profitLoss > 0)
+        {
+            cout << "You made a profit of $" << profitLoss << endl;
+        }
+        else if (profitLoss < 0)
+        {
+            cout << "You have a loss of $" << -profitLoss << endl;
+        }
+        else
+        {
+            cout << "Your investment has not gained or lost money." << endl;
+        }
+        break;
+
+    case 2:
+        // Display a formatted investment report
+        cout << endl;
+        cout << "==================================" << endl;
+        cout << "        Investment Report" << endl;
+        cout << "==================================" << endl;
+
+        cout << left << setw(22) << "Name:" << name << endl;
+        cout << left << setw(22) << "Shares purchased:" << shares << endl;
+        cout << left << setw(22) << "Purchase price:" << purchasePrice << endl;
+        cout << left << setw(22) << "Current price:" << currentPrice << endl;
+        cout << left << setw(22) << "Total cost:" << totalCost << endl;
+        cout << left << setw(22) << "Current value:" << currentValue << endl;
+        cout << left << setw(22) << "Profit/Loss:" << profitLoss << endl;
+        cout << left << setw(22) << "Percent change:" << percentChange << "%" << endl;
+        break;
+
+    case 3:
+        // Give an investment performance rating
+        cout << endl;
+        cout << "Investment Performance Rating" << endl;
+
+        if (percentChange >= 10 && profitLoss > 0)
+        {
+            cout << "Your investment has performed very well!" << endl;
+        }
+        else if (percentChange > 0 && percentChange < 10)
+        {
+            cout << "Your investment has made a small profit." << endl;
+        }
+        else if (percentChange == 0)
+        {
+            cout << "Your investment has not changed in value." << endl;
+        }
+        else
+        {
+            cout << "Your investment has lost value." << endl;
+        }
+        break;
+    }
+
+    // Create the report file
     ofstream outFile;
     outFile.open("report.txt");
 
-    // Write the running report to the file
-    outFile << fixed << setprecision(2);
-    outFile << "==============================" << endl;
-    outFile << "       Running Report" << endl;
-    outFile << "==============================" << endl;
+    // Check that the file opened
+    if (!outFile)
+    {
+        cout << "Error opening report.txt." << endl;
+        return 1;
+    }
 
-    outFile << left << setw(20) << "Name:" << name << endl;
-    outFile << left << setw(20) << "Miles per run:" << milesPerRun << endl;
-    outFile << left << setw(20) << "Days per week:" << daysPerWeek << endl;
-    outFile << left << setw(20) << "Minutes per run:" << minutesPerRun << endl;
-    outFile << left << setw(20) << "Weekly miles:" << weeklyMiles << endl;
-    outFile << left << setw(20) << "Weekly minutes:" << weeklyMinutes << endl;
+    // Save the investment report
+    outFile << fixed << setprecision(2);
+    outFile << "==================================" << endl;
+    outFile << "        Investment Report" << endl;
+    outFile << "==================================" << endl;
+
+    outFile << left << setw(22) << "Name:" << name << endl;
+    outFile << left << setw(22) << "Shares purchased:" << shares << endl;
+    outFile << left << setw(22) << "Purchase price:" << purchasePrice << endl;
+    outFile << left << setw(22) << "Current price:" << currentPrice << endl;
+    outFile << left << setw(22) << "Total cost:" << totalCost << endl;
+    outFile << left << setw(22) << "Current value:" << currentValue << endl;
+    outFile << left << setw(22) << "Profit/Loss:" << profitLoss << endl;
+    outFile << left << setw(22) << "Percent change:" << percentChange << "%" << endl;
 
     // Close the file
     outFile.close();
