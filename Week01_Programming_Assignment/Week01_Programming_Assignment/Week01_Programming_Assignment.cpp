@@ -108,9 +108,13 @@ int main()
                 cout << "Your investment is now worth $" << currentValue << endl;
 
                 // Check whether the investment gained or lost money
-                if (profitLoss > 0)
+                if (profitLoss > 0 && percentChange >= 10)
                 {
-                    cout << "You made a profit of $" << profitLoss << endl;
+                    cout << "You made a large profit of $" << profitLoss << endl;
+                }
+                else if (profitLoss > 0 && percentChange < 10)
+                {
+                    cout << "You made a small profit of $" << profitLoss << endl;
                 }
                 else if (profitLoss < 0)
                 {
