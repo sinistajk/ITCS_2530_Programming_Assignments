@@ -1,11 +1,11 @@
 ==================================
         Investment Report
 ==================================
-Name:                 kris 
-Shares purchased:     30
-Purchase price:       $40.00
-Current price:        $50.00
-Total cost:           $1200.00
-Current value:        $1500.00
-Profit/Loss:          $300.00
-Percent change:       25.00%
+Name:                 kris
+Shares purchased:     20
+Purchase price:       $30.00
+Current price:        $40.00
+Total cost:           $600.00
+Current value:        $800.00
+Profit/Loss:          $200.00
+Percent change:       33.33%
