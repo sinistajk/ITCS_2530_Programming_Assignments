@@ -1,8 +1,23 @@
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <string>
+#include <cstdlib>
 using namespace std;
+
+// Function declarations
+void displayBanner();
+void changeColor();
+void getInput(string& name, int& shares, double& purchasePrice,
+    double& currentPrice);
+void calculateInvestment(int shares, double purchasePrice,
+    double currentPrice, double& totalCost, double& currentValue,
+    double& profitLoss, double& percentChange);
+void displayMenu();
+void saveReport(string name, int shares, double purchasePrice,
+    double currentPrice, double totalCost, double currentValue,
+    double profitLoss, double percentChange);
 
 int main()
 {
@@ -19,75 +34,23 @@ int main()
     double percentChange;
     double projectedValue;
 
-    // Welcome message
-    cout << "==================================" << endl;
-    cout << "       Stock Investment Tracker" << endl;
-    cout << "==================================" << endl;
-    cout << "Welcome to my stock market program!" << endl;
-    cout << endl;
+    // Change console color and display welcome message
+    changeColor();
+    displayBanner();
 
-    // Get the user's name
-    cout << "What is your full name? ";
-    getline(cin, name);
-
-    // Get the user's investment information
-    cout << "How many shares did you purchase? ";
-    cin >> shares;
-
-    // Keep asking until the user enters valid shares
-    while (cin.fail() || shares <= 0)
-    {
-        cout << "Invalid number of shares. Try again: ";
-        cin.clear();
-        cin.ignore(1000, '\n');
-        cin >> shares;
-    }
-
-    cout << "What was the purchase price per share? $";
-    cin >> purchasePrice;
-
-    // Keep asking until the purchase price is valid
-    while (cin.fail() || purchasePrice <= 0)
-    {
-        cout << "Invalid purchase price. Try again: $";
-        cin.clear();
-        cin.ignore(1000, '\n');
-        cin >> purchasePrice;
-    }
-
-    cout << "What is the current price per share? $";
-    cin >> currentPrice;
-
-    // Keep asking until the current price is valid
-    while (cin.fail() || currentPrice < 0)
-    {
-        cout << "Invalid current price. Try again: $";
-        cin.clear();
-        cin.ignore(1000, '\n');
-        cin >> currentPrice;
-    }
+    // Get and validate investment information
+    getInput(name, shares, purchasePrice, currentPrice);
 
     // Calculate the investment values
-    totalCost = shares * purchasePrice;
-    currentValue = shares * currentPrice;
-    profitLoss = currentValue - totalCost;
-    percentChange = (profitLoss / totalCost) * 100;
+    calculateInvestment(shares, purchasePrice, currentPrice,
+        totalCost, currentValue, profitLoss, percentChange);
 
     cout << fixed << setprecision(2);
 
     // Keep displaying the menu until the user exits
     do
     {
-        cout << endl;
-        cout << "==================================" << endl;
-        cout << "             Main Menu" << endl;
-        cout << "==================================" << endl;
-        cout << "1. View profit or loss" << endl;
-        cout << "2. View investment report" << endl;
-        cout << "3. Get investment performance rating" << endl;
-        cout << "4. View 5-year investment projection" << endl;
-        cout << "5. Exit program" << endl;
-        cout << "Enter your choice (1-5): ";
+        displayMenu();
         cin >> menuChoice;
 
         // Check for invalid menu choices
@@ -96,6 +59,7 @@ int main()
             cout << "Invalid menu choice. Try again." << endl;
             cin.clear();
             cin.ignore(1000, '\n');
+            menuChoice = 0;
         }
         else
         {
@@ -108,9 +72,13 @@ int main()
                 cout << "Your investment is now worth $" << currentValue << endl;
 
                 // Check whether the investment gained or lost money
-                if (profitLoss > 0)
+                if (profitLoss > 0 && percentChange >= 10)
                 {
-                    cout << "You made a profit of $" << profitLoss << endl;
+                    cout << "You made a large profit of $" << profitLoss << endl;
+                }
+                else if (profitLoss > 0 && percentChange < 10)
+                {
+                    cout << "You made a small profit of $" << profitLoss << endl;
                 }
                 else if (profitLoss < 0)
                 {
@@ -196,6 +164,114 @@ int main()
 
     } while (menuChoice != 5);
 
+    // Save the investment report to a file
+    saveReport(name, shares, purchasePrice, currentPrice,
+        totalCost, currentValue, profitLoss, percentChange);
+
+    return 0;
+}
+
+// Function to display the welcome banner
+void displayBanner()
+{
+    cout << "==================================" << endl;
+    cout << "       Stock Investment Tracker" << endl;
+    cout << "==================================" << endl;
+    cout << "Welcome to my stock market program!" << endl;
+    cout << endl;
+}
+
+// Function to change the console text color
+void changeColor()
+{
+    // Change text to green on a black background in Windows
+    system("color 0A");
+}
+
+// Function to collect and validate user input
+void getInput(string& name, int& shares, double& purchasePrice,
+    double& currentPrice)
+{
+    // Get the user's name
+    cout << "What is your full name? ";
+    getline(cin, name);
+
+    // Keep asking until a name is entered
+    while (name == "")
+    {
+        cout << "Please enter your name: ";
+        getline(cin, name);
+    }
+
+    // Get the user's investment information
+    cout << "How many shares did you purchase? ";
+    cin >> shares;
+
+    // Keep asking until the user enters valid shares
+    while (cin.fail() || shares <= 0)
+    {
+        cout << "Invalid number of shares. Try again: ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cin >> shares;
+    }
+
+    cout << "What was the purchase price per share? $";
+    cin >> purchasePrice;
+
+    // Keep asking until the purchase price is valid
+    while (cin.fail() || purchasePrice <= 0)
+    {
+        cout << "Invalid purchase price. Try again: $";
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cin >> purchasePrice;
+    }
+
+    cout << "What is the current price per share? $";
+    cin >> currentPrice;
+
+    // Keep asking until the current price is valid
+    while (cin.fail() || currentPrice < 0)
+    {
+        cout << "Invalid current price. Try again: $";
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cin >> currentPrice;
+    }
+}
+
+// Function to calculate investment values
+void calculateInvestment(int shares, double purchasePrice,
+    double currentPrice, double& totalCost, double& currentValue,
+    double& profitLoss, double& percentChange)
+{
+    totalCost = shares * purchasePrice;
+    currentValue = shares * currentPrice;
+    profitLoss = currentValue - totalCost;
+    percentChange = (profitLoss / totalCost) * 100;
+}
+
+// Function to display the main menu
+void displayMenu()
+{
+    cout << endl;
+    cout << "==================================" << endl;
+    cout << "             Main Menu" << endl;
+    cout << "==================================" << endl;
+    cout << "1. View profit or loss" << endl;
+    cout << "2. View investment report" << endl;
+    cout << "3. Get investment performance rating" << endl;
+    cout << "4. View 5-year investment projection" << endl;
+    cout << "5. Exit program" << endl;
+    cout << "Enter your choice (1-5): ";
+}
+
+// Function to save the investment report to a file
+void saveReport(string name, int shares, double purchasePrice,
+    double currentPrice, double totalCost, double currentValue,
+    double profitLoss, double percentChange)
+{
     // Create the report file
     ofstream outFile;
     outFile.open("report.txt");
@@ -204,7 +280,7 @@ int main()
     if (!outFile)
     {
         cout << "Error opening report.txt." << endl;
-        return 1;
+        return;
     }
 
     // Save the investment report
@@ -227,6 +303,4 @@ int main()
 
     cout << endl;
     cout << "Your report was saved to report.txt!" << endl;
-
-    return 0;
 }
