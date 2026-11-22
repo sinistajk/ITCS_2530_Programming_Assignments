@@ -4,7 +4,17 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
+
 using namespace std;
+
+//VH Additions
+//I will adjust the program with the 5-years Array to store the values
+//... and introduce the risk levels
+//=====================================================================
+enum RiskTier { CONSERVATIVE, MODERATE, AGGRESSIVE };
+RiskTier classifyRisk(double percentChange, double purchasePrice);
+//=====================================================================
+
 
 // Function declarations
 void displayBanner();
@@ -15,9 +25,13 @@ void calculateInvestment(int shares, double purchasePrice,
     double currentPrice, double& totalCost, double& currentValue,
     double& profitLoss, double& percentChange);
 void displayMenu();
+
+//VH Additions
+//I am adjusting the saveReport function to include the risk profile and projected values
 void saveReport(string name, int shares, double purchasePrice,
     double currentPrice, double totalCost, double currentValue,
-    double profitLoss, double percentChange);
+    double profitLoss, double percentChange, RiskTier riskTier,
+    const double projectedValues[5]);
 
 int main()
 {
@@ -44,6 +58,15 @@ int main()
     // Calculate the investment values
     calculateInvestment(shares, purchasePrice, currentPrice,
         totalCost, currentValue, profitLoss, percentChange);
+
+    //VH Additions
+	//We will start using our new enum here to classify the risk of the 
+    //investment based on the percent change and purchase price
+    //=====================================================================
+    double projectedValues[5];
+    RiskTier riskTier = classifyRisk(percentChange, purchasePrice);
+    //=====================================================================
+
 
     cout << fixed << setprecision(2);
 
@@ -105,7 +128,26 @@ int main()
                 cout << left << setw(22) << "Current value:" << "$" << currentValue << endl;
                 cout << left << setw(22) << "Profit/Loss:" << "$" << profitLoss << endl;
                 cout << left << setw(22) << "Percent change:" << percentChange << "%" << endl;
+                //=====================================================================
+                //VH Additions
+				//Here we will reflect the risk profile of the investment 
+                //based on the percent change and purchase price
+                //=====================================================================
+                cout << left << setw(22) << "Risk profile:";
+                switch (riskTier)
+                {
+                case CONSERVATIVE:
+                    cout << "Conservative" << endl;
+                    break;
+                case MODERATE:
+                    cout << "Moderate" << endl;
+                    break;
+                case AGGRESSIVE:
+                    cout << "Aggressive" << endl;
+                    break;
+                }
                 break;
+                //=====================================================================
 
             case 3:
                 // Give an investment performance rating
@@ -130,8 +172,14 @@ int main()
                 }
                 break;
 
+      
+				//VH Additions
+				//Here we will use an array to store and display the projected values for 5 years
+                //also we will use another for loop to print it out
+                //=====================================================================
             case 4:
-                // Show an example 5-year investment projection
+            {
+                // Show an example 5-year investment projection using an array
                 cout << endl;
                 cout << "==================================" << endl;
                 cout << "     5-Year Investment Projection" << endl;
@@ -140,20 +188,24 @@ int main()
                 cout << "Actual stock returns are not guaranteed." << endl;
                 cout << endl;
 
-                projectedValue = currentValue;
+                double runningValue = currentValue;
+                for (int i = 0; i < 5; i++)
+                {
+                    runningValue = runningValue * 1.05;
+                    projectedValues[i] = runningValue;
+                }
 
                 cout << left << setw(10) << "Year"
                     << "Projected Value" << endl;
 
-                // Repeat the calculation for five years
-                for (year = 1; year <= 5; year++)
+                for (int i = 0; i < 5; i++)
                 {
-                    projectedValue = projectedValue * 1.05;
-
-                    cout << left << setw(10) << year
-                        << "$" << projectedValue << endl;
+                    cout << left << setw(10) << (i + 1)
+                        << "$" << projectedValues[i] << endl;
                 }
                 break;
+            }
+				//=====================================================================
 
             case 5:
                 cout << endl;
@@ -164,9 +216,17 @@ int main()
 
     } while (menuChoice != 5);
 
+	//VH Additions
+	// Saving the report in the file with the risk profile and projected values
+	//=====================================================================
+        /* saveReport(name, shares, purchasePrice, currentPrice,
+        totalCost, currentValue, profitLoss, percentChange);*/
+      
     // Save the investment report to a file
     saveReport(name, shares, purchasePrice, currentPrice,
-        totalCost, currentValue, profitLoss, percentChange);
+        totalCost, currentValue, profitLoss, percentChange,
+        riskTier, projectedValues);
+	//=====================================================================
 
     return 0;
 }
@@ -267,10 +327,15 @@ void displayMenu()
     cout << "Enter your choice (1-5): ";
 }
 
+
+//VH Additions
 // Function to save the investment report to a file
+//reflecting the risk profile and projected values
+//=====================================================================
 void saveReport(string name, int shares, double purchasePrice,
     double currentPrice, double totalCost, double currentValue,
-    double profitLoss, double percentChange)
+    double profitLoss, double percentChange, RiskTier riskTier,
+    const double projectedValues[5])
 {
     // Create the report file
     ofstream outFile;
@@ -297,6 +362,32 @@ void saveReport(string name, int shares, double purchasePrice,
     outFile << left << setw(22) << "Current value:" << "$" << currentValue << endl;
     outFile << left << setw(22) << "Profit/Loss:" << "$" << profitLoss << endl;
     outFile << left << setw(22) << "Percent change:" << percentChange << "%" << endl;
+    outFile << left << setw(22) << "Risk profile:";
+    switch (riskTier)
+    {
+    case CONSERVATIVE:
+        outFile << "Conservative" << endl;
+        break;
+    case MODERATE:
+        outFile << "Moderate" << endl;
+        break;
+    case AGGRESSIVE:
+        outFile << "Aggressive" << endl;
+        break;
+    }
+
+    outFile << endl;
+    outFile << "==================================" << endl;
+    outFile << "     5-Year Investment Projection" << endl;
+    outFile << "==================================" << endl;
+    outFile << left << setw(10) << "Year"
+        << "Projected Value" << endl;
+
+    for (int i = 0; i < 5; i++)
+    {
+        outFile << left << setw(10) << (i + 1)
+            << "$" << projectedValues[i] << endl;
+    }
 
     // Close the file
     outFile.close();
@@ -304,3 +395,25 @@ void saveReport(string name, int shares, double purchasePrice,
     cout << endl;
     cout << "Your report was saved to report.txt!" << endl;
 }
+//=====================================================================
+
+
+//VH Additions
+// Function to classify stock risk profile using an enum
+//=====================================================================
+RiskTier classifyRisk(double percentChange, double purchasePrice)
+{
+    if (percentChange < -10.0 || purchasePrice >= 500.0)
+    {
+        return AGGRESSIVE;
+    }
+    else if (percentChange >= -10.0 && percentChange <= 15.0)
+    {
+        return MODERATE;
+    }
+    else
+    {
+        return CONSERVATIVE;
+    }
+}
+//=====================================================================
