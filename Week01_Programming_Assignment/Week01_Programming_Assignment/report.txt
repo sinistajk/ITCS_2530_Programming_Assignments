@@ -1,11 +1,22 @@
 ==================================
         Investment Report
 ==================================
-Name:                 kris
-Shares purchased:     20
-Purchase price:       $30.00
-Current price:        $40.00
-Total cost:           $600.00
-Current value:        $800.00
-Profit/Loss:          $200.00
-Percent change:       33.33%
+Name:                 Vlad
+Shares purchased:     100
+Purchase price:       $560.00
+Current price:        $1000.00
+Total cost:           $56000.00
+Current value:        $100000.00
+Profit/Loss:          $44000.00
+Percent change:       78.57%
+Risk profile:         Aggressive
+
+==================================
+     5-Year Investment Projection
+==================================
+Year      Projected Value
+1         $105000.00
+2         $110250.00
+3         $115762.50
+4         $121550.62
+5         $127628.16

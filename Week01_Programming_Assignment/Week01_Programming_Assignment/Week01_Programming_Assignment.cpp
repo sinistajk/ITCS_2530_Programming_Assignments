@@ -11,7 +11,7 @@ using namespace std;
 //I will adjust the program with the 5-years Array to store the values
 //... and introduce the risk levels
 //=====================================================================
-enum RiskTier { CONSERVATIVE, MODERATE, AGGRESSIVE };
+enum RiskTier {CONSERVATIVE, MODERATE, AGGRESSIVE};
 RiskTier classifyRisk(double percentChange, double purchasePrice);
 //=====================================================================
 
